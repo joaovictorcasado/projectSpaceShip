@@ -1,31 +1,61 @@
 // SpaceShip game project..
 
-// develop by joaocasado
-// based in dioproject
+// Develop by joaocasado
+// Based in dioproject
 
-// start a game
+// Start a game
 function start() {
-  // hide start msg
+  // Hide start msg
   $('#msgStart').hide();
-  // on stared hide msg and make this:
+  // On stared hide msg and make this:
   $('#backgroundGame').append("<div id='player' class='animationOne'></div>");
   $('#backgroundGame').append("<div id='enemyOne' class='animationTwo'></div>");
   $('#backgroundGame').append("<div id='enemyTwo'></div>");
   $('#backgroundGame').append("<div id='ally' class='animationThree' ></div>");
   $('#backgroundGame').append("<div id='score'></div>");
+  $('#backgroundGame').append("<div id='energy'></div>");
 }
+
 const msgStart = document.getElementById('msgStart');
 const startEvent = msgStart.addEventListener('click', start);
-let pontos = 0;
-let salvos = 0;
-let perdidos = 0;
 
+// Sound game
+let shootSound = document.getElementById('shootSound');
+let explosionSound = document.getElementById('explosionSound');
+let music = document.getElementById('music');
+let gameOverSound = document.getElementById('gameOverSound');
+let lostSound = document.getElementById('lostSound');
+let rescueSound = document.getElementById('rescueSound');
+
+// Music Loop (main music)
+music.addEventListener('ended',
+  function () {
+    if(music.currentTime = 0){
+      music.currentTime = 0;
+
+      music.play();
+    }
+  },
+  false,
+);
+
+
+// Scoreboard
+let points = 0;
+let saved = 0;
+let losers = 0;
+
+// Energy Player
+// When started
+let playEnergy = 3;
+
+// Using in loop
 let game = {};
 
-//Game Loop
+// Game Loop
 game.timer = setInterval(loop, 30);
-// set interval is a function that run a loop every interval
-// run the loop every 30ms
+// Set interval is a function that run a loop every interval
+// Run the loop every 30ms
 
 function loop() {
   // These functions run in to background of game
@@ -35,29 +65,60 @@ function loop() {
     let left = parseInt($('#backgroundGame').css('background-position'));
     $('#backgroundGame').css('background-position', left - 1);
   };
+  // Loop Music
+  music.play();
 
-  // run a movement of background
+
+  // Run a movement of background
   backgroundMove();
 
-  // run a loop when press a key and run a animation
+  // Run a loop when press a key and run a animation
   movePlayer();
 
-  // run a movement  random whith enemy one
+  // Run a movement  random whith enemy one
   enemyMovementOne();
 
-  // run a movement  whith enemy two
+  // Run a movement  whith enemy two
   enemyMovementTwo();
 
-  // run a movement  ally
+  // Run a movement  ally
   moveAlly();
 
   // Detect a colission
   collisions();
+  // Most score player
+  score();
+  // Scoreboard()
+
+  // Update player energy
+  energy();
+}
+
+// Most image of status energy
+
+function energy() {
+  if (playEnergy == 3) {
+    $('#energy').css('background-image', 'url(imgs/energyThree.png)');
+  }
+
+  if (playEnergy == 2) {
+    $('#energy').css('background-image', 'url(imgs/energyTwo.png)');
+  }
+
+  if (playEnergy == 1) {
+    $('#energy').css('background-image', 'url(imgs/energyOne.png)');
+  }
+
+  if (playEnergy == 0) {
+    $('#energy').css('background-image', 'url(imgs/emptyEnergy.png)');
+
+    //Game Over
+  }
 }
 
 // Move player
 
-//  get a decimal value key
+//  Get a decimal value key
 let KEY = {
   W: 87,
   S: 83,
@@ -78,7 +139,7 @@ $(document).keyup(function (e) {
 });
 
 function movePlayer() {
-  //move up
+  // Move up
   if (game.press[KEY.W]) {
     const top = parseInt($('#player').css('top'));
     const playerTop = top;
@@ -97,7 +158,7 @@ function movePlayer() {
     const top = parseInt($('#player').css('top'));
     $('#player').css('top', top + 10);
     const playerTop = top;
-    // console.log(playerTop);
+
     // Limit of helicopter player move (top)
 
     if (top >= 414) {
@@ -129,11 +190,11 @@ function movePlayer() {
   }
 }
 
-// move enemy one
+// Move enemy one
 
-const enemyOnespeed = 5;
+let enemyOnespeed = 5;
 
-// movement occurred in axys y
+// Movement occurred in axys y
 const enemyMovement = parseInt(Math.random() * 334);
 let positionY = enemyMovement;
 
@@ -149,7 +210,7 @@ function enemyMovementOne() {
   }
 }
 
-// move enemy two
+// Move enemy two
 
 function enemyMovementTwo() {
   positionX = parseInt($('#enemyTwo').css('left'));
@@ -160,7 +221,7 @@ function enemyMovementTwo() {
   }
 }
 
-// move ally
+// Move ally
 
 function moveAlly() {
   positionX = parseInt($('#ally').css('left'));
@@ -171,21 +232,25 @@ function moveAlly() {
   }
 }
 
-// shoot
+// Shoot
 
 let canShoot = true;
 
 function shoot() {
+
+  // shoot sound
+  shootSound.play();
+
   // Can i shoot verify
   if (canShoot == true) {
     // Isn't allow shoot multiples
     canShoot = false;
 
-    // get a value of element helicopter position (player)
+    // Get a value of element helicopter position (player)
     playerTop = parseInt($('#player').css('top'));
     positionX = parseInt($('#player').css('left'));
 
-    // shootx receice start position of shoot
+    // Shootx receice start position of shoot
     shootX = positionX + 190;
 
     // topShoot receice start position of shoot
@@ -194,8 +259,8 @@ function shoot() {
     $('#shoot').css('top', topShoot);
     $('#shoot').css('left', shootX);
 
-    // shot course time (loop)
-    // run the loop every 9ms
+    // Shot course time (loop)
+    // Run the loop every 9ms
 
     var timeShoot = window.setInterval(runShoot, 15);
   }
@@ -204,10 +269,10 @@ function shoot() {
     positionX = parseInt($('#shoot').css('left'));
     $('#shoot').css('left', positionX + 15);
 
-    // limit of shoot course
-    // if limite > 900 remove shoot and interval (loop)
-    // null confirm that shoot is removed
-    // that shoot is removed is possible run again canShoot
+    // Limit of shoot course
+    // If limite > 900 remove shoot and interval (loop)
+    // Null confirm that shoot is removed
+    // That shoot is removed is possible run again canShoot
 
     if (positionX > 900) {
       window.clearInterval(timeShoot);
@@ -219,9 +284,20 @@ function shoot() {
 }
 
 // Collisions
+function score() {
+  $('#score').html(
+    '<h2> Pontos: ' +
+      points +
+      ' Salvos: ' +
+      saved +
+      ' Perdidos: ' +
+      losers +
+      '</h2>',
+  );
+}
 
 function collisions() {
-  // indetify colissions
+  // Indetify colissions
   const collisionOne = $('#player').collision($('#enemyOne'));
   const collisionTwo = $('#player').collision($('#enemyTwo'));
   const collisionThree = $('#shoot').collision($('#enemyOne'));
@@ -229,16 +305,16 @@ function collisions() {
   const collisionFive = $('#player').collision($('#ally'));
   const collisionSix = $('#enemyTwo').collision($('#ally'));
 
-  // console.log(collisionOne);
-
-  // when conditions is true reposition enemy random
-  // first colission
+  // When conditions is true reposition enemy random
+  // First colission
   if (collisionOne.length > 0) {
-    // get a enemy position on axys "x" and "y"
+    // Decreases player's energy with each collision..
+    playEnergy--;
+    // Get a enemy position on axys "x" and "y"
     enemyOneX = parseInt($('#enemyOne').css('left'));
     enemyOneY = parseInt($('#enemyOne').css('top'));
-    // after get enemy positions prepared a functions
-    // using whith param enemy positions
+    // After get enemy positions prepared a functions
+    // Using whith param enemy positions
     explosionOne(enemyOneX, enemyOneY);
 
     positionY = parseInt(Math.random() * 334);
@@ -246,9 +322,11 @@ function collisions() {
     $('#enemyOne').css('top', positionY);
   }
 
-  // when conditions is true reposition enemy random
-  // second colission between player and enemy 2
+  // When conditions is true reposition enemy random
+  // Second colission between player and enemy 2
   if (collisionTwo.length > 0) {
+    // Decreases player's energy with each collision..
+    playEnergy--;
     enemyTwoX = parseInt($('#enemyTwo').css('left'));
     enemyTwoY = parseInt($('#enemyTwo').css('top'));
     explosionTwo(enemyTwoX, enemyTwoY);
@@ -259,26 +337,27 @@ function collisions() {
   }
 
   // Shoot collision
-  // will occur when the player hits the enemies
-  //  collision three fire with enemy one
+  // Will occur when the player hits the enemies
+  //  Collision three fire with enemy one
   if (collisionThree.length > 0) {
+    // When hitting enemy 1 the player will gain 100 points
+    points = points + 100;
+    // Updates speed when imigo is shot down
+    enemyOnespeed = enemyOnespeed + 0.3;
 
-    // when hitting enemy 1 the player will gain 100 points
-    score = score + 100;
-
-    // get the enemy's position
+    // Get the enemy's position
     enemyOneX = parseInt($('#enemyOne').css('left'));
     enemyOneY = parseInt($('#enemyOne').css('top'));
 
-    // used the same explosion already created
+    // Used the same explosion already created
     explosionOne(enemyOneX, enemyOneY);
     //
-    // interrupts the course of the shot, causing when it hits
-    // the enemy he does not continue
+    // Interrupts the course of the shot, causing when it hits
+    // The enemy he does not continue
     $('#shoot').css('left', 950);
 
-    // the value of the parameter refers to the value of the trigger's initial function,
-    // which will cause the trigger to be removed if it is greater than 900
+    // The value of the parameter refers to the value of the trigger's initial function,
+    // Which will cause the trigger to be removed if it is greater than 900
 
     // When the enemy is hit it will be repositioned random
     positionY = parseInt(Math.random() * 334);
@@ -286,36 +365,45 @@ function collisions() {
     $('#enemyOne').css('top', positionY);
   }
 
-  //  collision four  fire with enemy two
+  //  Collision four  fire with enemy two
 
-  // works very similar to above
+  // Works very similar to above
   if (collisionFour.length > 0) {
-    
+    // When hitting enemy 2 the player will gain 50 points
+    points = points + 50;
+
     enemyTwoX = parseInt($('#enemyTwo').css('left'));
     enemyTwoY = parseInt($('#enemyTwo').css('top'));
     $('#enemyTwo').remove();
     // We use the explosionTwo declared below
     explosionTwo(enemyTwoX, enemyTwoY);
     $('#shoot').css('left', 950);
-    // we also use the enemyTwo replacement function declared below..
+    // We also use the enemyTwo replacement function declared below..
     repositionEnemyTwo();
   }
 
-  // collision 5 between player and ally
+  // Collision 5 between player and ally
 
   if (collisionFive.length > 0) {
+    // Sound
+    // When rescue enemy
+    rescueSound.play();
+
     // reposition the ally and remove it from the screen
     // will call the function reposition ally
+    saved++;
     repositionAlly();
     $('#ally').remove();
   }
 
-  // collision 6 between ally and enemyTwo
+  // Collision 6 between ally and enemyTwo
   if (collisionSix.length > 0) {
-    // get a position ally
+    losers++;
+
+    // Get a position ally
     allyX = parseInt($('#ally').css('left'));
     allyY = parseInt($('#ally').css('top'));
-    // call function exlposionThree using param allyX and allyY
+    // Call function exlposionThree using param allyX and allyY
     explosionThree(allyX, allyY);
     $('#ally').remove();
 
@@ -323,39 +411,44 @@ function collisions() {
   }
 
   //Explosion
-  // get a params declaret before in explosionOne
+  // Get a params declaret before in explosionOne
   function explosionOne(enemyOneX, enemyOneY) {
-    // create element in html
+
+    // Sound Explosion
+    explosionSound.play();
+
+
+    // Create element in html
     $('#backgroundGame').append("<div id='explosionOne'></div");
     $('#explosionOne').css('background-image', 'url(imgs/explosion.png)');
-    // get element create in up line to facility acess
+    // Get element create in up line to facility acess
     const div = $('#explosionOne');
     div.css('top', enemyOneY);
     div.css('left', enemyOneX);
-    // animate jquery expanded a div and decrease opacity velocity slow
+    // Animate jquery expanded a div and decrease opacity velocity slow
     div.animate({ width: 200, opacity: 0 }, 'slow');
-    // after run explosion remove explosin in 1s
+    // After run explosion remove explosin in 1s
     let timeExplosion = window.setInterval(removeExplosion, 1000);
 
     function removeExplosion() {
-      // remove div and set interval
+      // Remove div and set interval
       div.remove();
       window.clearInterval(timeExplosion);
-      // for confirm
+      // For confirm
       timeExplosion = null;
     }
   }
 
-  // reposition enemy two
+  // Reposition enemy two
   function repositionEnemyTwo() {
-    // enemy will only be repositioned after 5 seconds..
+    // Enemy will only be repositioned after 5 seconds..
 
     var timeColisionFour = window.setInterval(repositionFour, 5000);
 
     function repositionFour() {
       window.clearInterval(timeColisionFour);
       timeColisionFour = null;
-      // enemy will only be repositioned if the game is not over yet
+      // Enemy will only be repositioned if the game is not over yet
       if (endGame == false) {
         $('#backgroundGame').append('<div id=enemyTwo></div');
       }
@@ -363,6 +456,10 @@ function collisions() {
   }
 
   function explosionTwo(enemyTwoX, enemyTwoY) {
+
+     // Sound Explosion
+     explosionSound.play();
+
     $('#backgroundGame').append("<div id='explosionTwo'></div");
     $('#explosionTwo').css('background-image', 'url(imgs/explosion.png)');
     var divTwo = $('#explosionTwo');
@@ -379,7 +476,7 @@ function collisions() {
     }
   }
 
-  // after remove respawn ally in 6s
+  // After remove respawn ally in 6s
   function repositionAlly() {
     let timeAlly = window.setInterval(repositionSix, 6000);
 
@@ -396,7 +493,11 @@ function collisions() {
   }
 
   function explosionThree(allyX, allyY) {
-    // create a div whith class animationFour
+
+    //When ally dead
+    lostSound.play()
+
+    // Create a div whith class animationFour
     $('#backgroundGame').append(
       "<div id='explosionThree' class='animationFour'></div",
     );
@@ -410,6 +511,7 @@ function collisions() {
     }
   }
 
-  // this variable will identify the end of the game, preventing elements and events from occurring at this stage
+  
+  // This variable will identify the end of the game, preventing elements and events from occurring at this stage
   let endGame = false;
 }
