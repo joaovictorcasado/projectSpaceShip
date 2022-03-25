@@ -4,6 +4,7 @@
 // Based in dioproject
 
 // Start a game
+
 function start() {
   // Hide start msg
   $('#msgStart').hide();
@@ -28,9 +29,10 @@ let lostSound = document.getElementById('lostSound');
 let rescueSound = document.getElementById('rescueSound');
 
 // Music Loop (main music)
-music.addEventListener('ended',
+music.addEventListener(
+  'ended',
   function () {
-    if(music.currentTime = 0){
+    if ((music.currentTime = 0)) {
       music.currentTime = 0;
 
       music.play();
@@ -38,7 +40,6 @@ music.addEventListener('ended',
   },
   false,
 );
-
 
 // Scoreboard
 let points = 0;
@@ -50,7 +51,7 @@ let losers = 0;
 let playEnergy = 3;
 
 // Using in loop
-let game = {};
+var game = {};
 
 // Game Loop
 game.timer = setInterval(loop, 30);
@@ -67,8 +68,6 @@ function loop() {
   };
   // Loop Music
   music.play();
-
-
   // Run a movement of background
   backgroundMove();
 
@@ -98,21 +97,20 @@ function loop() {
 
 function energy() {
   if (playEnergy == 3) {
-    $('#energy').css('background-image', 'url(imgs/energyThree.png)');
+    $('#energy').css('background-image', 'url(../../../imgs/energyThree.png)');
   }
 
   if (playEnergy == 2) {
-    $('#energy').css('background-image', 'url(imgs/energyTwo.png)');
+    $('#energy').css('background-image', 'url(../../../imgs/energyTwo.png');
   }
 
   if (playEnergy == 1) {
-    $('#energy').css('background-image', 'url(imgs/energyOne.png)');
+    $('#energy').css('background-image', 'url(../../../imgs/energyOne.png)');
   }
-
+  // when energy == 0 run game over
   if (playEnergy == 0) {
-    $('#energy').css('background-image', 'url(imgs/emptyEnergy.png)');
-
-    //Game Over
+    $('#energy').css('background-image', 'url(../../../imgs/emptyEnergy.png)');
+    gameOver();
   }
 }
 
@@ -238,11 +236,10 @@ let canShoot = true;
 
 function shoot() {
 
-  // shoot sound
-  shootSound.play();
-
   // Can i shoot verify
   if (canShoot == true) {
+    // shoot sound
+    shootSound.play();
     // Isn't allow shoot multiples
     canShoot = false;
 
@@ -262,7 +259,7 @@ function shoot() {
     // Shot course time (loop)
     // Run the loop every 9ms
 
-    var timeShoot = window.setInterval(runShoot, 15);
+    var timeShoot = window.setInterval(runShoot, 30);
   }
 
   function runShoot() {
@@ -295,7 +292,39 @@ function score() {
       '</h2>',
   );
 }
+// Game over section
+let endGame = false;
+function gameOver() {
+  // Modify status of endgame for true
+  endGame = true;
+  // Stop play music
+  music.pause();
+  // Run a music of end game
+  gameOverSound.play();
+  // Stoped loop and interval
+  window.clearInterval(game.timer);
+  game.timer = null;
+  // Remove elements
+  $('#player').remove();
+  $('#enemyOne').remove();
+  $('#enemyTwo').remove();
+  $('#ally').remove();
+  $('#score').remove();
 
+  // Make a end game menu
+  $('#backgroundGame').append("<div id='end'></div>");
+  // Most score in game and creat a button to play again
+  $('#end').html(
+    `<h1> Game Over </h1>
+    <p>Sua pontuação foi: ${points} </p>
+    <p>Aliados salvos: ${saved} </p>
+    <p>Aliados perdidos: ${losers} </p>
+
+
+      <div id='restart' onClick=restart()><h3>Jogar Novamente</h3></div>`,
+  );
+}
+// Colisions
 function collisions() {
   // Indetify colissions
   const collisionOne = $('#player').collision($('#enemyOne'));
@@ -308,8 +337,9 @@ function collisions() {
   // When conditions is true reposition enemy random
   // First colission
   if (collisionOne.length > 0) {
-    // Decreases player's energy with each collision..
+    // Decreases player's energy and points with each collision..
     playEnergy--;
+    points -= 100;
     // Get a enemy position on axys "x" and "y"
     enemyOneX = parseInt($('#enemyOne').css('left'));
     enemyOneY = parseInt($('#enemyOne').css('top'));
@@ -327,6 +357,7 @@ function collisions() {
   if (collisionTwo.length > 0) {
     // Decreases player's energy with each collision..
     playEnergy--;
+    points -= 100;
     enemyTwoX = parseInt($('#enemyTwo').css('left'));
     enemyTwoY = parseInt($('#enemyTwo').css('top'));
     explosionTwo(enemyTwoX, enemyTwoY);
@@ -413,14 +444,12 @@ function collisions() {
   //Explosion
   // Get a params declaret before in explosionOne
   function explosionOne(enemyOneX, enemyOneY) {
-
     // Sound Explosion
     explosionSound.play();
 
-
     // Create element in html
     $('#backgroundGame').append("<div id='explosionOne'></div");
-    $('#explosionOne').css('background-image', 'url(imgs/explosion.png)');
+    $('#explosionOne').css('background-image', 'url(../../../imgs/explosion.png)');
     // Get element create in up line to facility acess
     const div = $('#explosionOne');
     div.css('top', enemyOneY);
@@ -456,12 +485,11 @@ function collisions() {
   }
 
   function explosionTwo(enemyTwoX, enemyTwoY) {
-
-     // Sound Explosion
-     explosionSound.play();
+    // Sound Explosion
+    explosionSound.play();
 
     $('#backgroundGame').append("<div id='explosionTwo'></div");
-    $('#explosionTwo').css('background-image', 'url(imgs/explosion.png)');
+    $('#explosionTwo').css('background-image', 'url(../../../imgs/explosion.png');
     var divTwo = $('#explosionTwo');
     divTwo.css('top', enemyTwoY);
     divTwo.css('left', enemyTwoX);
@@ -493,9 +521,8 @@ function collisions() {
   }
 
   function explosionThree(allyX, allyY) {
-
     //When ally dead
-    lostSound.play()
+    lostSound.play();
 
     // Create a div whith class animationFour
     $('#backgroundGame').append(
@@ -510,8 +537,9 @@ function collisions() {
       timeExplosionThree = null;
     }
   }
+}
 
-  
-  // This variable will identify the end of the game, preventing elements and events from occurring at this stage
-  let endGame = false;
+// Restart game
+function restart() {
+  document.location.reload(true);
 }

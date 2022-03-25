@@ -31,7 +31,7 @@ body {
 }
 
 #player {
-  width: 256px;
+  width: 200px;
   height: 66px;
   position: absolute;
   left: 8px;
@@ -69,7 +69,7 @@ body {
 
 #msgStart {
   width: 350px;
-  height: 200px;
+  height: 250px;
   background-color: #fff;
   margin: auto;
   margin-top: 100px;
@@ -252,49 +252,88 @@ body {
 }
 
 @keyframes deadAlly {
-	from {background-position:0px;}
-	to {background-position:-308px;}
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: -308px;
+  }
 }
 
 @-webkit-keyframes deadAlly {
-   from { background-position:    0px; }
-     to { background-position: -308px; }
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: -308px;
+  }
 }
 
 @-moz-keyframes deadAlly {
-   from { background-position:    0px; }
-     to { background-position: -308px; }
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: -308px;
+  }
 }
 
 @-ms-keyframes deadAlly {
-   from { background-position:    0px; }
-     to { background-position: -308px; }
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: -308px;
+  }
 }
 
 @-o-keyframes deadAlly {
-   from { background-position:    0px; }
-     to { background-position: -308px; }
+  from {
+    background-position: 0px;
+  }
+  to {
+    background-position: -308px;
+  }
 }
 
 #score {
-	width: 450px;
-	height: 50px;
-	position: absolute;
-	left: 5px;
-	top: 590px;
+  width: 450px;
+  height: 50px;
+  position: absolute;
+  left: 5px;
+  top: 590px;
 }
 
 h2 {
-	font-family:Titulo;
-	font-size:20px;
-	color:#FFF
+  font-family: Titulo;
+  font-size: 20px;
+  color: #fff;
 }
 
 /* Energy bar */
 #energy {
-	width: 140px;
-	height: 38px;
-	position: absolute;
-	left: 750px;
-	top: 7px;	
+  width: 140px;
+  height: 38px;
+  position: absolute;
+  left: 750px;
+  top: 7px;
+}
+
+/* End Game */
+
+h3 {
+  font-family: Titulo;
+  font-size: 20px;
+  color: #603a03;
+}
+
+#end {
+  width: 350px;
+  height: 250px;
+  background-color: #fff;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  text-align: center;
+  padding: 10px;
 }
