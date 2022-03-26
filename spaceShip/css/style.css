@@ -297,11 +297,12 @@ body {
 }
 
 #score {
-  width: 450px;
+  width: 400px;
   height: 50px;
   position: absolute;
   left: 5px;
-  top: 590px;
+  margin-left: 20px;
+  top: 560px;
 }
 
 h2 {

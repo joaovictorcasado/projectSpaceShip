@@ -97,19 +97,28 @@ function loop() {
 
 function energy() {
   if (playEnergy == 3) {
-    $('#energy').css('background-image', 'url(../../../imgs/energyThree.png)');
+    $('#energy').css(
+      'background-image',
+      'url(./spaceShip/imgs/energyThree.png)',
+    );
   }
 
   if (playEnergy == 2) {
-    $('#energy').css('background-image', 'url(../../../imgs/energyTwo.png');
+    $('#energy').css('background-image', 'url(./spaceShips/imgs/energyTwo.png');
   }
 
   if (playEnergy == 1) {
-    $('#energy').css('background-image', 'url(../../../imgs/energyOne.png)');
+    $('#energy').css(
+      'background-image',
+      'url(./spaceShips/imgs/energyOne.png)',
+    );
   }
   // when energy == 0 run game over
   if (playEnergy == 0) {
-    $('#energy').css('background-image', 'url(../../../imgs/emptyEnergy.png)');
+    $('#energy').css(
+      'background-image',
+      'url(./spaceShips/imgs/emptyEnergy.png)',
+    );
     gameOver();
   }
 }
@@ -235,7 +244,6 @@ function moveAlly() {
 let canShoot = true;
 
 function shoot() {
-
   // Can i shoot verify
   if (canShoot == true) {
     // shoot sound
@@ -283,13 +291,14 @@ function shoot() {
 // Collisions
 function score() {
   $('#score').html(
-    '<h2> Pontos: ' +
-      points +
-      ' Salvos: ' +
-      saved +
-      ' Perdidos: ' +
-      losers +
-      '</h2>',
+    `<h2> Pontos: 
+     ${points}
+     Salvos: 
+      ${saved}
+       Perdidos: 
+      ${losers}
+      <span>develop by @joaocasado</span>
+      </h2>`,
   );
 }
 // Game over section
@@ -449,7 +458,10 @@ function collisions() {
 
     // Create element in html
     $('#backgroundGame').append("<div id='explosionOne'></div");
-    $('#explosionOne').css('background-image', 'url(../../../imgs/explosion.png)');
+    $('#explosionOne').css(
+      'background-image',
+      'url(./spaceShip/imgs/explosion.png)',
+    );
     // Get element create in up line to facility acess
     const div = $('#explosionOne');
     div.css('top', enemyOneY);
@@ -489,7 +501,10 @@ function collisions() {
     explosionSound.play();
 
     $('#backgroundGame').append("<div id='explosionTwo'></div");
-    $('#explosionTwo').css('background-image', 'url(../../../imgs/explosion.png');
+    $('#explosionTwo').css(
+      'background-image',
+      'url(./spaceShip/imgs/explosion.png',
+    );
     var divTwo = $('#explosionTwo');
     divTwo.css('top', enemyTwoY);
     divTwo.css('left', enemyTwoX);
