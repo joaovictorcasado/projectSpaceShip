@@ -316,6 +316,7 @@ function gameOver() {
   // Remove elements
   $('#player').remove();
   $('#enemyOne').remove();
+  $('#energy').remove();
   $('#enemyTwo').remove();
   $('#ally').remove();
   $('#score').remove();
