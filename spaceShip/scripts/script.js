@@ -104,20 +104,20 @@ function energy() {
   }
 
   if (playEnergy == 2) {
-    $('#energy').css('background-image', 'url(./spaceShips/imgs/energyTwo.png');
+    $('#energy').css('background-image', 'url(./spaceShip/imgs/energyTwo.png');
   }
 
   if (playEnergy == 1) {
     $('#energy').css(
       'background-image',
-      'url(./spaceShips/imgs/energyOne.png)',
+      'url(./spaceShip/imgs/energyOne.png)',
     );
   }
   // when energy == 0 run game over
   if (playEnergy == 0) {
     $('#energy').css(
       'background-image',
-      'url(./spaceShips/imgs/emptyEnergy.png)',
+      'url(./spaceShip/imgs/emptyEnergy.png)',
     );
     gameOver();
   }
