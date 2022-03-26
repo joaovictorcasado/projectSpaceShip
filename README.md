@@ -25,20 +25,20 @@
 - [jQuery](https://jquery.com/) <br>
         
 
-<h2> Sobre do Jogo </h2>
+<h2> Instruções do Jogo </h2>
 
 <h3> O objetivo do jogo é conseguir fazer o máximo de pontos salvar os aliados e evitar as colisões.. </h3>
         
 <p> 
         
-- Utiize as teclas W A S D para movimentar o helicóptero.
+- Utiize as teclas W A S D para movimentar o helicóptero
 - Utilize a tecla F para disparar
 - Pontue ao eliminar os inimigos (100 pontos inimigo 1) ( 50 pontos inimigo 2) 
 - O jogador começa com 3 energias
 - O jogador perderá pontos ao colidir com os inimigos (50 pontos inimigo 1) (100 pontos inimigo 2)
-- O jogador perderá 1 energia a cada colisão..        
-- O número máximo de colisões permitido é 3.  
-- Se o jogador colidir 3 vezes o jogo acaba..
+- O jogador perderá 1 energia a cada colisão      
+- O número máximo de colisões permitido é 3
+- Se o jogador colidir 3 vezes o jogo acaba
 - No final do jogo é mostrado o número de pontos colisões e aliados salvos
 
         
